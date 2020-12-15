@@ -1,0 +1,9 @@
+aws sns create-topic --name sasha
+
+aws sns subscribe --topic-arn arn:aws:sns:us-east-2:070071391564:sasha --protocol email --notification-endpoint Sashaloz777@gmail.com
+
+aws cloudwatch put-metric-alarm --alarm-name elb-tg-notification --namespace AWS/ApplicationELB --metric-name HealthyHostCount --statistic Average --period 300 --threshold 2 --comparison-operator LessThanThreshold --dimensions "Name=LoadBalancer,Value=app/sasha/dda48cfd5f630381" "Name=TargetGroup,Value=targetgroup/sashko/80ef07052ad5bb3f" --evaluation-periods 1 --alarm-actions arn:aws:sns:us-east-2:070071391564:sasha 
+
+
+aws elbv2 deregister-targets --target-group-arn arn:aws:elasticloadbalancing:us-east-2:070071391564:targetgroup/sashko/80ef07052ad5bb3f --targets Id=i-00eeb2e67404e14b7
+
